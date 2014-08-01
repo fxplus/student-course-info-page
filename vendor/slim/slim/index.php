@@ -7,6 +7,10 @@ require 'Slim/Slim.php';
 // Instantiate a new slim app ("In this case called router")
 $router = new \Slim\Slim();
 
+$router->get('/', function () {
+    echo "Hi there";
+});
+
 $router->get('/hello/:name', function ($name) {
     echo "Hello, $name";
 });
@@ -17,6 +21,10 @@ $router->get('/ba-film', function () {
 
 $router->get('/ba-music', function () {
     echo "You have been redirected to Learning Space";
+});
+
+$router->get('/am144296', function () {
+    echo "Hello, Aaron";
 });
 
 // Run the app
