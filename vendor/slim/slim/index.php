@@ -23,8 +23,8 @@ $router->get('/ba-music', function () {
     echo "You have been redirected to Learning Space";
 });
 
-$router->get('/am144296', function () {
-    echo "Hello, Aaron";
+$router->get('/am144296', function () use ($router) {    
+    $router->redirect('http://localhost:8888/scip/');
 });
 
 // Run the app
