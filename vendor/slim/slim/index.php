@@ -7,27 +7,10 @@ require 'Slim/Slim.php';
 // Instantiate a new slim app ("In this case called router")
 $router = new \Slim\Slim();
 
-$router->get('/', function () {
-    echo "Hi there";
-});
-
-$router->get('/hello/:name', function ($name) {
-    echo "Hello, $name";
-});
-
-$router->get('/ba-film', function () {
-    echo "You have been redirected to a SCIP";
-});
-
-$router->get('/ba-music', function () {
-    echo "You have been redirected to Learning Space";
-});
-
-$router->get('/am144296', function () use ($router) {    
-    $router->redirect('http://localhost:8888/scip/');
-});
+// Load the routes
+require 'app/routes/routes.php';
 
 // Run the app
 // This should always come last.
 $router->run();
-
+?>
