@@ -8,7 +8,7 @@ require 'Slim/Slim.php';
 $app = new \Slim\Slim();
 
 // Load the routes
-require 'app/routes/routes.php';
+require 'routes/routes.php';
 
 // Run the app
 // This should always come last.
