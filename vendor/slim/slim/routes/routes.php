@@ -16,8 +16,13 @@ $app->get('/ba-music', function () {
     echo "You have been redirected to Learning Space";
 });
 
-$app->get('/am144296', function () use ($app) {    
-    $app->redirect('http://localhost:8888/scip/');
+$app->get('/am144296', function () use ($app) {  
+	// It appears you have to configure the view dir on each call so:
+	//$app->config('templates.path', realpath(__DIR__ . '/..') . '/views/');   
+    $app->render(
+    	realpath(__DIR__. '/..') . '/views/index.php'
+    );
+
 });
 
 ?>
