@@ -28,6 +28,11 @@
           </ul>
         </li>
       </ul>
+      <h2>Academic Liaison Librarian</h2>
+    
+          <a href="{{librarians.subject_page_url}}">{{librarians.librarian}}</a>
+    
+      </ul>
       <hr />
       <h1>Files</h1>
       <ul>
@@ -46,15 +51,21 @@
   // Set up the information page controller
   app.controller('InformationPageController', function($scope) {
     
-    // Example response from SharePoint API, 
-    // passed in from the router on server (for caching reasons).
+    // Example response from SharePoint API
     <?php  echo 'var response = '.$this->data['json']; ?>;
+
+    // Example response from SharePoint API
+    <?php  echo 'var librarians = '.$this->data['liaisonUrl']; ?>;
 
     // Set scope response to API response.
     $scope.response = response;
+    $scope.librarians = librarians[0];
+
   });
 
   </script>
+
+  
 
 </body>
 </html>
