@@ -35,9 +35,5 @@ class CourseList {
     }   
     return $r;
   }
-
-  // public function getCourseList(){
-  //   return $this->courseList;
-  // }
 } // End class definition
 ?>

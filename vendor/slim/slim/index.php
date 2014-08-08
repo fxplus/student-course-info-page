@@ -3,34 +3,21 @@
 // require slim and register autoloader
 require 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
+require 'config.php';
 
-// Instantiate a new slim app ("In this case called router")
-$app = new \Slim\Slim();
+// Setup custom Twig view
+$twigView = new \Slim\Views\Twig();
 
-// Setting Twig up as a singleton like this means the definition
-// will remain after each request
-$app->container->singleton('twig', function ($c) {
-    $twig = new \Slim\Views\Twig();
+$app = new \Slim\Slim(array(
+    'debug' => true,
+    'view' => $twigView
+));
 
-    /* Option */
-    $twig->parserOptions = array(
-        'debug' => true,
-        'cache' => dirname(__FILE__) . '/cache'
-    );
-
-    /* Extensions */
-    $twig->parserExtensions = array(
-        new \Slim\Views\TwigExtension(),
-    );
-
-    $templatesPath = $c['settings']['templates.path'];
-    $twig->setTemplatesDirectory($templatesPath);
-
-    return $twig;
-});
-
-// Load the routes
-require 'routes/routes.php';
+// Automatically load router files
+$routers = glob('routers/*.router.php');
+foreach ($routers as $router) {
+    require $router;
+}
 
 // Run the app
 // This should always come last.
