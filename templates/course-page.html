@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Page title</title>
+</head>
+<body>
+  <!-- My Modules -->
+  <h2>My Modules</h2>
+  <ul>
+  {# Define fullname var that we will #}
+  {# use to check repitition inside for loop. #}
+  {# Skip if is same coursename as prev #}
+ 
+  {% set fullname = '' %}
+
+  {% for module in modules %}
+  	{% if module.fullname != fullname %}
+  		
+  		{% set fullname = module.fullname %}
+
+  		<li><a href="{{ base ~ '/course/view.php?id=' ~ module.id }}">{{ module.shortname }}</a></li>
+  	
+  	{% else %}
+  		{# Do nothing #}   	
+    {% endif %}
+  {% endfor %}
+</ul>
+<!-- END My Modules -->
+
+  <!-- Contacts -->
+  <h2>Contacts</h2>
+  <ul>
+      {% for contact in contacts %}
+      <li>
+          <ul>
+            <li>{{ contact.name }}</li>
+            <li>{{ contact.email }}</li>
+            <li>{{ contact.telephone }}</li>
+          </ul>
+      </li>
+      {% endfor %}
+  </ul>
+  <!-- END Contacts -->
+
+  <!-- Contacts -->
+  <h2>Files</h2>
+  <ul>
+      {% for file in files %}
+          <li><a href="{{ file.link }}">{{ file.title }}</a></li>
+      {% endfor %}
+  </ul>
+  <!-- END Contacts -->
+</body>
+</html>

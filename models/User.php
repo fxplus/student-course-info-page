@@ -1,97 +1,46 @@
-<?php
-
-/**
- * This is an example of User Class using PDO
- *
- */
+<?php 
 
 namespace models;
-use lib\Core;
-use PDO;
 
 class User {
 
-	protected $core;
+  public $moodleUser;
+  public $id;
+  public $firstname;
+  public $lastname;
+  public $fullname;
 
-	function __construct() {
-		$this->core = Core::getInstance();
-		//$this->core->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	}
-	
-	// Get all users
-	public function getUsers() {
-		$r = array();		
+  public function __construct ($moodle) {
 
-		$sql = "SELECT * FROM evnt_usuario";
-		$stmt = $this->core->dbh->prepare($sql);
-		//$stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+    // get student from moodle session (or optionally from moodle student id) 
+    if ($moodleUser = $moodle->getuser($_COOKIE['MoodleSession'])) { 
+      $this->moodleUser = $moodle->getuser($_COOKIE['MoodleSession']);
+    } else {
+      echo '<p>No moodle user/session was found.</p>';
+      echo '<p>Are you logged into moodle?</p>';
+    }
 
-		if ($stmt->execute()) {
-			$r = $stmt->fetchAll(PDO::FETCH_ASSOC);		   	
-		} else {
-			$r = 0;
-		}		
-		return $r;
-	}
+    $this->id = $this->moodleUser->id;
+    $this->firstname = $this->moodleUser->firstname;
+    $this->lastname = $this->moodleUser->lastname;
+    $this->fullname = $this->firstname .' '. $this->lastname;
+  }
 
-	// Get user by the Id
-	public function getUserById($id) {
-		$r = array();		
-		
-		$sql = "SELECT nombre * evnt_usuario WHERE id=$id";
-		$stmt = $this->core->dbh->prepare($sql);
-		//$stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+  public function getMoodleuser(){
+    return $this->moodleUser;
+  }
 
-		if ($stmt->execute()) {
-			$r = $stmt->fetchAll(PDO::FETCH_ASSOC);		   	
-		} else {
-			$r = 0;
-		}		
-		return $r;
-	}
+  public function getFirstname(){
+    return $this->firstname;
+  }
 
-	// Get user by the Login
-	public function getUserByLogin($email, $pass) {
-		$r = array();		
-		
-		$sql = "SELECT * FROM user WHERE email=:email AND password=:pass";		
-		$stmt = $this->core->dbh->prepare($sql);
-		$stmt->bindParam(':email', $email, PDO::PARAM_STR);
-		$stmt->bindParam(':pass', $pass, PDO::PARAM_STR);
+  public function getLastname(){
+    return $this->lastname;
+  }
 
-		if ($stmt->execute()) {
-			$r = $stmt->fetchAll(PDO::FETCH_ASSOC);		   	
-		} else {
-			$r = 0;
-		}		
-		return $r;
-	}
+  public function getFullname(){
+    return $this->fullname;
+  }
 
-	// Insert a new user
-	public function insertUser($data) {
-		try {
-			$sql = "INSERT INTO user (name, email, password, role) 
-					VALUES (:name, :email, :password, :role)";
-			$stmt = $this->core->dbh->prepare($sql);
-			if ($stmt->execute($data)) {
-				return $this->core->dbh->lastInsertId();;
-			} else {
-				return '0';
-			}
-		} catch(PDOException $e) {
-        	return $e->getMessage();
-    	}
-		
-	}
-
-	// Update the data of an user
-	public function updateUser($data) {
-		
-	}
-
-	// Delete user
-	public function deleteUser($id) {
-		
-	}
-
-}
+} // End class definition
+?>
