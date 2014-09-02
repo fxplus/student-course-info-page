@@ -8,9 +8,9 @@ ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(-1);
 
-require_once('moodlequery/config.php');
-require_once('moodlequery/class.moodlequery.php');
-require_once('moodlequery/class.aspireapi.php'); 
+require_once('../moodlequery/config.php');
+require_once('../moodlequery/class.moodlequery.php');
+require_once('../moodlequery/class.aspireapi.php'); 
 
 // Get user
 $app->get('/student', function () use ($app) {  
