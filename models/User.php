@@ -2,6 +2,12 @@
 
 namespace models;
 
+use lib\Config;
+
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(-1);
+
 class User {
 
   public $moodleUser;
@@ -10,21 +16,38 @@ class User {
   public $lastname;
   public $fullname;
 
-  public function __construct ($moodle) {
+  public function __construct ($moodle, $userIsSet = false) {
 
-    // get student from moodle session (or optionally from moodle student id) 
-    if ($moodleUser = $moodle->getuser($_COOKIE['MoodleSession'])) { 
+  // if there is a Moodle Session, i.e. logged into Moodle
+  if ( isset($_COOKIE['MoodleSession']) ){
+
+    if($this->moodleUser = $moodle->getuser($_COOKIE['MoodleSession'])){
+      
+      // Set this Moodle user to user in session cookie
       $this->moodleUser = $moodle->getuser($_COOKIE['MoodleSession']);
+    
+      // grab the uid from user
+      $this->id = $this->moodleUser->id;
+
+      // grab the first name
+      $this->firstname = $this->moodleUser->firstname;
+
+      // grab the last name
+      $this->lastname = $this->moodleUser->lastname;
+
+      // Create fullname var
+      $this->fullname = $this->firstname .' '. $this->lastname;
+
+      $userIsSet = true;
     } else {
-      echo '<p>No moodle user/session was found.</p>';
-      echo '<p>Are you logged into moodle?</p>';
+      throw new \Exception('No session found, redirecting to login.');
     }
 
-    $this->id = $this->moodleUser->id;
-    $this->firstname = $this->moodleUser->firstname;
-    $this->lastname = $this->moodleUser->lastname;
-    $this->fullname = $this->firstname .' '. $this->lastname;
-  }
+    // else, if no session found, not logged in
+    } else {
+      // throw new \Exception('No user set');
+    } 
+  } // end of constructor
 
   public function getMoodleuser(){
     return $this->moodleUser;

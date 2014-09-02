@@ -1,10 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-  <title>Page title</title>
-</head>
-<body>
+<!-- LS Header – Ripped d'reckly from Learning Space -->
+{% include 'learningspace-header.html' %}
+
+  <h1>Welcome back, {{ userFirstName }}</h1> 
+
   <!-- My Modules -->
   <h2>My Modules</h2>
   <ul>
@@ -14,12 +12,24 @@
  
   {% set fullname = '' %}
 
+  {# Define fullname var that we will #}
   {% for module in modules %}
   	{% if module.fullname != fullname %}
   		
   		{% set fullname = module.fullname %}
 
-  		<li><a href="{{ base ~ '/course/view.php?id=' ~ module.id }}">{{ module.shortname }}</a></li>
+  		<li>
+        <a href="{{ base ~ '/course/view.php?id=' ~ module.id }}">{{ module.shortname }}</a>
+
+        {# if there is a reading list for this module #}
+        {% if readingLists[module.fullname][0].name != "" %}
+        <ul>
+          <li>
+            <a href="{{ readingLists[module.fullname][0].url }}"><strong>Reading List</strong></a>
+          </li>
+        </ul>
+        {% endif %}
+      </li>
   	
   	{% else %}
   		{# Do nothing #}   	
@@ -32,9 +42,9 @@
   <h2>Contacts</h2>
   <ul>
       {% for contact in contacts %}
-      <li>
+      <li>{{ contact.name }}
           <ul>
-            <li>{{ contact.name }}</li>
+            
             <li>{{ contact.email }}</li>
             <li>{{ contact.telephone }}</li>
           </ul>
@@ -51,5 +61,17 @@
       {% endfor %}
   </ul>
   <!-- END Contacts -->
-</body>
-</html>
+
+  <!-- Reading Lists -->
+  <h2>Reading Lists</h2>
+  <ul>
+    {% for moduleReadingList in readingLists %}
+      {% for item in moduleReadingList %}
+        <li><a href="{{ item.url }}">{{ item.name }}</a></li>
+      {% endfor %}
+    {% endfor %}
+  </ul>
+  <!-- END Reading Lists -->
+
+<!-- LS Footer – Ripped d'reckly from Learning Space -->
+{% include 'learningspace-footer.html' %}

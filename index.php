@@ -1,7 +1,5 @@
 <?php
 
-echo "Index";
-
 require 'vendor/autoload.php';
 require 'config.php';
 // require 'moodlequery/class.moodlequery.php';

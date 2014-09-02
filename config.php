@@ -14,6 +14,7 @@ Config::write('db.password', 'root');
 Config::write('moodle.config', $CFG);
 
 Config::write('site.root', 'http://localhost:8888/learningspace-26');
+Config::write('site.logout', 'http://localhost:8888/learningspace-26/logout');
 
 // Project Config
 Config::write('path', 'http://localhost:8888/rdrctr');
